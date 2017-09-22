@@ -133,11 +133,14 @@ namespace FreeWorld
                 try
                 {
                     var req = context.Mondes.Where(ms => ms.Id >= 0);
-                    foreach (Monde md in req) ;
+                    foreach (Monde md in req)
+                    {
+                        MainWindow.txttext.AppendText("Id : " + md.Id + "- Description : " + md.Description + "- Limite X : " + md.LimiteX + "- Limite Y : " + md.LimiteY + "\n");
+
+                    }
                 }
                 catch(Exception e)
                 {
-                    MainWindow.tx
                 }
             }
         }

@@ -20,7 +20,7 @@ namespace FreeWorld
     /// </summary>
     public partial class MainWindow : Window
     {
-        public TextBox txttext = new TextBox();
+        public static TextBox txttext = new TextBox();
         public MainWindow()
         {
             InitializeComponent();

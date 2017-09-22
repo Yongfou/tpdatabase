@@ -20,9 +20,30 @@ namespace PaquetWorld
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static TextBox txttext = new TextBox();
         public MainWindow()
         {
             InitializeComponent();
+            txttext = txtText;
         }
+
+        private void btnOk_Click(object sender, RoutedEventArgs e)
+        {
+            TestMonde();
+        }
+
+        #region Méthodes
+
+        public void TestMonde()
+        {
+            //Monde.CreerMonde("premier", 1000, 1000);
+            //Monde.SupprimerMonde(76);
+            //Monde.SupprimerMonde(90);
+            //Monde.ModifierMonde(77, "Patate", 50, 50);
+            //Monde.ModifierMonde(90, "patate", 50, 50);
+            Monde.AfficherListeMonde();
+        }
+
+        #endregion
     }
 }

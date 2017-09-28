@@ -63,6 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ADO.cs" />
     <Compile Include="Classe.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -92,6 +93,13 @@
     <Compile Include="Monstre.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="MthClasse.cs" />
+    <Compile Include="MthCompteJoueur.cs" />
+    <Compile Include="MthHero.cs" />
+    <Compile Include="MthItem.cs" />
+    <Compile Include="MthMonde.cs" />
+    <Compile Include="MthMonstre.cs" />
+    <Compile Include="MthObjetMonde.cs" />
     <Compile Include="ObjetMonde.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PaquetWorld"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="710.714">
     <Grid>
-        <TextBox x:Name="txtText" HorizontalAlignment="Left" Height="194" Margin="38,46,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="385"/>
+        <TextBox x:Name="txtText" HorizontalAlignment="Left" Height="194" Margin="38,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="639"/>
         <Button x:Name="btnOk" Content="Button" HorizontalAlignment="Left" Margin="377,279,0,0" VerticalAlignment="Top" Width="75" Click="btnOk_Click"/>
 
     </Grid>

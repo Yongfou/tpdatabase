@@ -11,9 +11,12 @@ namespace PaquetWorld
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     public partial class Monstre
     {
+
+
         public int Id { get; set; }
         public string Nom { get; set; }
         public int Niveau { get; set; }
@@ -26,5 +29,6 @@ namespace PaquetWorld
         public Nullable<int> ImageId { get; set; }
     
         public virtual Monde Monde { get; set; }
+
     }
 }

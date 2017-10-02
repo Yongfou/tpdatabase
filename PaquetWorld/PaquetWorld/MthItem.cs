@@ -10,7 +10,18 @@ namespace PaquetWorld
     public static class MthItem
     {
 
-
+        /// <summary>
+        /// Auteur : Sébastien Paquet
+        /// Description : Méthode qui créé un item
+        /// Date: 28-09-2017
+        /// </summary>
+        /// <param name="sNom">Variable qui prend la le nom d'un item</param>
+        /// <param name="sDescription">Variable qui prend la description d'un objet</param>
+        /// <param name="iPosX">Variable qui prend la position vertical de l'item</param>
+        /// <param name="iPosY">Variable qui prend la position horizontale de l'item</param>
+        /// <param name="iIdMonde">Variable qui prend l'id du monde</param>
+        /// <param name="iIdimage">Variable qui prend l'id de l'image</param>
+        /// <param name="iIdHero">Variable qui prend l'id du Héro</param>
         public static void CreerItem(string sNom, string sDescription, int iPosX, int iPosY, int iIdMonde, int iIdimage, int iIdHero)
         {
             using (Entities context = new Entities())
@@ -52,7 +63,12 @@ namespace PaquetWorld
             }
         }
 
-
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description : Méthode qui supprime un item
+        /// Date: 27-09-2017
+        /// </summary>
+        /// <param name="iIdItem"></param>
         public static void SupprimerItem(int iIdItem)
         {
             Item i = new Item();
@@ -80,7 +96,14 @@ namespace PaquetWorld
             }
         }
 
-
+        /// <summary>
+        /// Auteur : Sébastien Paquet
+        /// Description : Méthode qui modifie la quantité d'item dans le monde
+        /// Date: 27-09-2017
+        /// </summary>
+        /// <param name="sNomItem"> Variable qui prend le nom de l'item</param>
+        /// <param name="iIdMonde">Variable qui prend l'id du monde </param>
+        /// <param name="iQuantite">Variable qui prend le la quantité a modifier soit ajouter ou a supprimer</param>
         public static void ModifierQuantiteItem(string sNomItem,int iIdMonde, int iQuantite)
         {
             Item i = new Item();
@@ -102,11 +125,11 @@ namespace PaquetWorld
                             it.y = i.y;
                             it.MondeId = i.MondeId;
                             it.ImageId = i.ImageId ;
-                            it.IdHero = i.Id;
+                            it.IdHero = i.IdHero;
                             context.Items.Add(it);
                             context.SaveChanges();
                         }
-                        MessageBox.Show(iQuantite + sNomItem + " a été créé", "Création réussi");
+                        MessageBox.Show(iQuantite +" "+ sNomItem + " a été créé", "Création réussi");
 
                     }
                     else if (iQuantite < 0)
@@ -118,7 +141,7 @@ namespace PaquetWorld
                             context.SaveChanges();
 
                         }
-                        MessageBox.Show(iQuantite  + sNomItem + ") a été supprimé", "Suppression réussi");
+                        MessageBox.Show(iQuantite +" " + sNomItem + " a été supprimés", "Suppression réussi");
 
                     }
                     context.SaveChanges();

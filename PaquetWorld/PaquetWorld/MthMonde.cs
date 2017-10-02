@@ -65,6 +65,11 @@ namespace PaquetWorld
                     {
                         MessageBox.Show("l'id (" + iIdMonde + ") du monde n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                    else if (e.HResult== -2146233087)
+                    {
+                        MessageBox.Show("l'id (" + iIdMonde + ") ne peut pas être supprimer, car il est utillisé par un autre table", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    }
                     else
                     {
                         MessageBox.Show(e.Message);

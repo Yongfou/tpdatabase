@@ -72,17 +72,17 @@ namespace PaquetWorld
                 {
                     if (cj == null)
                     {
-                        MessageBox.Show("l'id (" + iIdCompteJoueur + ") du Compte joueur n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("l'id (" + iIdCompteJoueur + ") du Compte joueur n'existe pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     }
                     else if (m == null)
                     {
-                        MessageBox.Show("l'id (" + iIdMonde + ") du monde n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("l'id (" + iIdMonde + ") du monde n'existe pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     }
                     else if (c == null)
                     {
-                        MessageBox.Show("l'id (" + iIdClasse + ") de la classe n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("l'id (" + iIdClasse + ") de la classe n'existe pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     }
                     else
@@ -174,9 +174,8 @@ namespace PaquetWorld
                     hr.ClasseId = iIdClasse;
                     hr.NomHero = sNom;
                     hr.EstConnecte = bConnecter;
-                    context.Heros.Add(hr);
                     context.SaveChanges();
-                    MessageBox.Show("Le héro " + sNom + " à bien été créé", "Création réussi");
+                    MessageBox.Show("Le héro id ( " + iIdHero + " ) à bien été modifié", "Modification réussi");
 
                 }
                 catch (Exception e)

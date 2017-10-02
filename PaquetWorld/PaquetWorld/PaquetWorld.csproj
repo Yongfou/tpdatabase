@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="MthClasse.cs" />
     <Compile Include="MthCompteJoueur.cs" />
+    <Compile Include="MthEffetItem.cs" />
     <Compile Include="MthHero.cs" />
     <Compile Include="MthItem.cs" />
     <Compile Include="MthMonde.cs" />

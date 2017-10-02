@@ -81,6 +81,10 @@ namespace PaquetWorld
                     {
                         MessageBox.Show("l'id (" + iIdClasse + ") de la classe n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                    else if (e.HResult == -2146233087)
+                    {
+                        MessageBox.Show("l'id (" + iIdClasse + ") de la classe ne peut être utiliser car une autre classe dépand de lui", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                     else
                     {
                         MessageBox.Show(e.Message);
@@ -142,7 +146,82 @@ namespace PaquetWorld
             }
         }
 
+        /// <summary>
+        /// Auteur:Sébastien Paquet
+        /// Description:Méthode qui fait une liste de toutes les classe d'un monde
+        /// Date:27-09-2017
+        /// </summary>
+        /// <param name="iIdMonde">Variable qui prend l'id d'un monde</param>
+        /// <returns></returns>
+        public static List<Classe> ClasseMonde(int iIdMonde)
+        {
+            Monde m = new Monde();
+            List<Classe> ListeClasse = new List<Classe>();
 
+            using (Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.Classes.Where(cl => cl.MondeId == iIdMonde);
+                    foreach(Classe c in req)
+                    {
+                        ListeClasse.Add(c);
+                    }
+                }
+                catch(Exception e)
+                {                    
+                    if (m == null)
+                    {
+                        MessageBox.Show("l'id (" + iIdMonde + ") du monde n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                }
+            }
+
+            return ListeClasse;
+        }
+
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description:Méthode qui donne la classe d'un héro
+        /// Date:27-09-2017
+        /// </summary>
+        /// <param name="iIdHero">Variabe qui prend le id du héro </param>
+        /// <returns></returns>
+        public static Classe ClasseHero (int iIdHero)
+        {
+            Classe c = new Classe();
+            Hero hr = new Hero();
+
+            using (Entities context = new Entities())
+            {
+                try
+                {
+                    hr = context.Heros.Find(iIdHero);
+                    c = context.Classes.First(ck => ck.Id == hr.ClasseId);
+                }
+                catch(Exception e)
+                {
+                    if (c == null)
+                    {
+                        MessageBox.Show("l'id (" + c.Id + ") de la classe n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else if (hr == null)
+                    {
+                        MessageBox.Show("l'id (" + iIdHero + ") du héro n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+                }
+            }
+
+            return c;
+        }
 
         #endregion
 

@@ -29,12 +29,14 @@ namespace PaquetWorld
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            //TestMonde();
-            //TestObjetMonde();
-            //TestMonstre();
-            //TestCompteJoueur();
-            //TestClasse();
+            TestMonde();
+            TestObjetMonde();
+            TestMonstre();
+            TestCompteJoueur();
+            TestClasse();
             TestHero();
+            TestItem();
+            TestEffetItem();
         }
 
         #region Méthodes
@@ -49,7 +51,7 @@ namespace PaquetWorld
             using(Entities context = new Entities())
             {
                 MthMonde.CreerMonde("premier", 1000, 1000);
-                Monde md = context.Mondes.First(m=>m.Id != 1080);
+                Monde md = context.Mondes.First(m=>m.Id > 1080);
                 MthMonde.SupprimerMonde(md.Id);
                 MthMonde.SupprimerMonde(50);
                 Monde md2 = context.Mondes.First();
@@ -104,7 +106,6 @@ namespace PaquetWorld
             }
         }
 
-
         /// <summary>
         /// Auteur:Sébastien Paquet
         /// Description: Méthode qui teste toutes les méthode de la classe MthCompteJoueur
@@ -144,36 +145,97 @@ namespace PaquetWorld
                 Classe c = context.Classes.First();
                 MthClasse.SupprimerClasse(c.Id);
                 MthClasse.SupprimerClasse(50);
-                MthClasse.ModifierClasse(50,"chevalier", "paladin", 15, 12, 10, 20, m1.Id);
+                MthClasse.ModifierClasse(50, "chevalier", "paladin", 15, 12, 10, 20, m1.Id);
                 Classe c2 = context.Classes.First();
-                MthClasse.ModifierClasse(c2.Id,"chevalier", "paladin", 15, 12, 10, 20, 50);
-                MthClasse.ModifierClasse(c2.Id,"chevalier", "paladin", 15, 12, 10, 20, m1.Id);
-
+                MthClasse.ModifierClasse(c2.Id, "chevalier", "paladin", 15, 12, 10, 20, 50);
+                MthClasse.ModifierClasse(c2.Id, "chevalier", "paladin", 15, 12, 10, 20, m1.Id);
+                txttext.AppendText("Toutes les classes d'un monde" + "\n");
+                foreach (Classe cx in MthClasse.ClasseMonde(79))
+                {
+                    txttext.AppendText(cx.NomClasse + "\n");
+                }
+                txttext.AppendText("La classe de paul est " + MthClasse.ClasseHero(1).NomClasse);
 
             }
         }
 
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description : Méthode qui teste toutes les méthodes de la classe mthHero
+        /// Date:27-09-2017
+        /// </summary>
         public void TestHero()
         {
-            //MthHero.CreerHero(1009, 1080, 18, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
-            MthHero.RayonHero(1);
-            //foreach(ObjetMonde om in MthHero.ListeObjetMonde)
-            //{
-            //    txttext.AppendText("ID : " + om.Id +" X : " +om.x+" Y : " + om.y + " Description : "+om.Description+" Type d'objet : "+om.TypeObjet +" Monde id : "+om.MondeId + "\n");
-            //}
-            //foreach (Monstre m in MthHero.ListeMonstre)
-            //{
-            //    txttext.AppendText(m + "\n");
-            //}
-            //foreach(Item i in MthHero.ListeItem)
-            //{
-            //    txttext.AppendText(i + "\n");
-            //}
-            //foreach(Hero h in MthHero.ListeHero)
-            //{
-            //    txttext.AppendText(h + "\n");
-            //}
+            using(Entities context = new Entities())
+            {
+                MthHero.CreerHero(1009, 1080, 18, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
+                MthHero.CreerHero(50, 1080, 18, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
+                MthHero.CreerHero(1009, 1080, 100, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
+                Hero hr = context.Heros.First(hero => hero.Id != 1);
+                MthHero.SupprimerHero(hr.Id);
+                MthHero.SupprimerHero(1000);
+                Hero hr2 = context.Heros.First(her=> her.Id != 1);
+                MthHero.ModifierHero(75, 1009, 1080, 18, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
+                MthHero.ModifierHero(hr2.Id, 50, 1080, 18, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
+                MthHero.ModifierHero(hr2.Id, 1009, 1080, 100, 20, 15151, 25, 25, 64, 64, 64, 64, "paul", true);
+                MthHero.ModifierHero(hr2.Id, 1009, 1080, 18, 20, 15151, 25, 25, 64, 64, 64, 64, "Ti-groux", true);
+                MthHero.RayonHero(1);
+                MthHero.AfficherRayonHero();
+                foreach (Hero h in MthHero.HeroJoueur(1009))
+                {
+                    txttext.AppendText(h.NomHero + "\n");
+                }
+            }
+            
+           
         }
+
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description:Méthode qui teste toutes les méthode de la classe mthItem
+        /// </summary>
+        public void TestItem()
+        {
+            using(Entities context = new Entities())
+            {
+
+                MthItem.CreerItem("Dildo", " sa vibre", 15, 15, 1080, 0, 1);
+                MthItem.CreerItem("chat", "noir", 15, 15, 1080, 0, 1);
+                MthItem.CreerItem("Carte", "plate", 15, 15, 0, 1, 1);
+                MthItem.CreerItem("Carte", "plate", 15, 15, 1080, 0, 0);
+                Item i = context.Items.First(it => it.Id != 81);
+                MthItem.SupprimerItem(i.Id);
+                MthItem.SupprimerItem(10);
+                MthItem.ModifierQuantiteItem("dildo", 1080, 2);
+                MthItem.ModifierQuantiteItem("dildo", 1080, -2);
+
+            }
+        }
+
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description: Méthode qui toutes les méthode de la classe effet item
+        /// Date:27-09-2017
+        /// </summary>
+        public void TestEffetItem()
+        {
+            using(Entities context = new Entities())
+            {               
+                Item it = context.Items.First();
+                MthEffetItem.AjouterEffetItem(it.Id,23,23);
+                MthEffetItem.AjouterEffetItem(it.Id, 330, 030);
+                MthEffetItem.AjouterEffetItem(it.Id, 256, 2565);
+                MthEffetItem.AjouterEffetItem(50, 23, 23);
+                EffetItem ef = context.EffetItems.First();
+                MthEffetItem.SupprimerEffetItem(ef.Id);
+                MthEffetItem.SupprimerEffetItem(120);
+                EffetItem ef2 = context.EffetItems.First();
+                MthEffetItem.ModifierEffetItem(ef2.Id, it.Id, 454654, 545646);
+                MthEffetItem.ModifierEffetItem(45, it.Id, 454654, 545646);
+                MthEffetItem.ModifierEffetItem(ef2.Id, 1000, 454654, 545646);
+            }
+        }
+
         #endregion
     }
 }

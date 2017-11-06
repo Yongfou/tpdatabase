@@ -19,26 +19,32 @@ namespace PaquetWorld
         /// <param name="sDescription">Variable qui prend la description du monde</param>
         /// <param name="iLimiteX">Variable qui prend la grandeur verticale (x) du monde</param>
         /// <param name="iLimiteY">Variable qui prend la grandeur horizontale (y) du monde</param>
-        public static void CreerMonde(string sDescription, int iLimiteX, int iLimiteY)
+        public static int CreerMonde(string sDescription, int iLimiteX, int iLimiteY,string sPathTile,string sPathCSv,int? iDefaultTile,int? iTileSize )
         {
             using (Entities context = new Entities())
             {
 
-                
+                int ID = 0; 
                 try
                 {
                     Monde md1 = new Monde();
                     md1.Description = sDescription;
                     md1.LimiteX = iLimiteX;
                     md1.LimiteY = iLimiteY;
+                    md1.PathTile = sPathTile;
+                    md1.PathCsv = sPathCSv;
+                    md1.DefaultTile = iDefaultTile;
+                    md1.SizeTile = iTileSize;
                     context.Mondes.Add(md1);
                     context.SaveChanges();
+                    ID = md1.Id;
                     MessageBox.Show("Monde à bien été créé", "Création réussi");
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.Message);
                 }
+                return ID;
             }
         }
 

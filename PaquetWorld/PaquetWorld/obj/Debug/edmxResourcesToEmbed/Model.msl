@@ -85,6 +85,10 @@
     <EntitySetMapping Name="Mondes">
       <EntityTypeMapping TypeName="Model.Monde">
         <MappingFragment StoreEntitySet="Monde">
+          <ScalarProperty Name="SizeTile" ColumnName="SizeTile" />
+          <ScalarProperty Name="DefaultTile" ColumnName="DefaultTile" />
+          <ScalarProperty Name="PathCsv" ColumnName="PathCsv" />
+          <ScalarProperty Name="PathTile" ColumnName="PathTile" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="LimiteX" ColumnName="LimiteX" />

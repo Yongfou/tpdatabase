@@ -36,7 +36,7 @@ namespace PaquetWorld
                     obm1.TypeObjet = iTypeObjet;
                     context.ObjetMondes.Add(obm1);
                     context.SaveChanges();
-                    MessageBox.Show("L'objet du monde à bien été créé", "Création réussi");
+                    //MessageBox.Show("L'objet du monde à bien été créé", "Création réussi");
 
                 }
                 catch (Exception e)
@@ -68,7 +68,7 @@ namespace PaquetWorld
                     ObjetMonde obm1 = context.ObjetMondes.First(obm => obm.Id == iIdObjetMonde);
                     context.ObjetMondes.Remove(obm1);
                     context.SaveChanges();
-                    MessageBox.Show("L'objet monde id (" + iIdObjetMonde + ") a été supprimer", "Suppression réussi");
+                    //MessageBox.Show("L'objet monde id (" + iIdObjetMonde + ") a été supprimer", "Suppression réussi");
 
                 }
                 catch (Exception e)
@@ -101,7 +101,7 @@ namespace PaquetWorld
                     ObjetMonde obm1 = context.ObjetMondes.First(obm => obm.Id == iIdObjetMonde);
                     obm1.Description = sDescription;
                     context.SaveChanges();
-                    MessageBox.Show("L'objet monde id (" + iIdObjetMonde + ") a été modifié.", "Modification réussi");
+                    //MessageBox.Show("L'objet monde id (" + iIdObjetMonde + ") a été modifié.", "Modification réussi");
 
                 }
                 catch (Exception e)
@@ -117,7 +117,60 @@ namespace PaquetWorld
                 }
             }
         }
+        /// <summary>
+        /// Auteur:Sébastien PAquet
+        /// Description:Liste tous les objet d'un monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="idMOnde"></param>
+        /// <returns></returns>
+        public static List<ObjetMonde> ListeObjetMonde (int idMOnde)
+        {
+            List<ObjetMonde> liste = new List<ObjetMonde>();
+            using(Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.ObjetMondes.Where(o => o.MondeId == idMOnde);
+                    foreach(ObjetMonde om in req)
+                    {
+                        liste.Add(om);
+                    }
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            return liste;
+        }
 
+        /// <summary>
+        /// Auteur:Sébastien Paquet
+        /// Description: Supprime tous les objet d'un monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="IdMonde"></param>
+        public static void SupprimerTousMondeobjetMonde(int IdMonde)
+        {
+            using (Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.ObjetMondes.Where(i => i.MondeId == IdMonde);
+                    foreach (ObjetMonde i in req)
+                    {
+                        context.ObjetMondes.Remove(i);
+                    }
+                    context.SaveChanges();
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+        }
         #endregion
     }
 }

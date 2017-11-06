@@ -11,19 +11,19 @@ namespace HugoLandEditeur
     public class Tile
     {
         private static BitmapCache _bitmaps = new BitmapCache();
-        public const int TileSizeX = 64;
-        public const int TileSizeY = 64;
-
+        public const int TileSizeX = 32;
+        public const int TileSizeY = 32;
+        public int IdImage { get; set; } = 0;
         public Bitmap Bitmap { get; set; }
         public int X_Image { get; set; }
         public int Y_Image { get; set; }
-
+        public int IdMonde { get; set; }
         public Rectangle Rectangle { get; set; }
         public bool IsTransparent { get; set; }
         public int NumberOfFrames { get; set; }
         public bool IsBlock { get; set; }
         public string Category { get; set; }
-
+        public int Typeobjet { get; set; } = 0;
         public string Color { get; set; }
         public int Health { get; set; }
 
@@ -31,7 +31,10 @@ namespace HugoLandEditeur
         public int IndexTypeObjet { get; set; }
         public TypeTile TypeObjet { get; set; }
 
+        public Tile()
+        {
 
+        }
         public Tile(string[] tileData)
         {
             try
@@ -44,8 +47,8 @@ namespace HugoLandEditeur
                 Rectangle = new Rectangle((Convert.ToInt32(tileData[4]) - 1) * TileSizeX, (Convert.ToInt32(tileData[5]) - 1) * TileSizeY,
                                            TileSizeX * NumberOfFrames, TileSizeY);
 
-                X_Image = (Convert.ToInt32(tileData[4]) - 1);
-                Y_Image = (Convert.ToInt32(tileData[5]) - 1);
+                X_Image = (Convert.ToInt32(tileData[4])-1);
+                Y_Image = (Convert.ToInt32(tileData[5])-1);
 
                 IsTransparent = (tileData[6].ToLower() == "y");
                 IsBlock = ((tileData[8].ToLower()) == "block");

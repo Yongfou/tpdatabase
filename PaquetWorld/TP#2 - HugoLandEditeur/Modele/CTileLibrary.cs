@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace HugoLandEditeur
 {
@@ -11,12 +13,14 @@ namespace HugoLandEditeur
 	public class CTileLibrary
 	{
 
-
+        private csApplication csteApplication = new csApplication();
         private int m_Count;			// number of tiles
-        private Bitmap m_TileSource;		// to be loaded from external File or resource...
+        private Bitmap m_TileSource;    // to be loaded from external File or resource...
         private int m_Width;
         private int m_Height;
-        private Dictionary<string, Tile> _ObjMonde = new Dictionary<string, Tile>();
+        public int ReelLargeur =0;
+        public int ReelLongeur = 0;
+        public Dictionary<string, Tile> _ObjMonde = new Dictionary<string, Tile>();
 
         public Dictionary<string, Tile> ObjMonde
         {
@@ -55,33 +59,55 @@ namespace HugoLandEditeur
             }
         }
 
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description: Constructeur qui crée un objet de type tile selon le choix de tile de administrateur
+        /// Date:32-10-2017
+        /// </summary>
 		public CTileLibrary()
 		{
-            m_TileSource = new Bitmap(@"gamedata\AllTiles.bmp");
-			m_Width = (m_TileSource.Width / csteApplication.TILE_WIDTH_IN_IMAGE) + 1;
-            m_Height = (m_TileSource.Height / csteApplication.TILE_HEIGHT_IN_IMAGE) + 1;
-            
-            readTileDefinitions(@"gamedata\AllTilesLookups.csv");
+            if(StaticClass.TileData != null)
+            {
+                m_TileSource = new Bitmap(StaticClass.TileData);
+                ReelLargeur = m_TileSource.Width;
+                ReelLongeur = m_TileSource.Height;
+                m_Width = (m_TileSource.Width / csteApplication.TILE_WIDTH_IN_IMAGE);
+                m_Height = (m_TileSource.Height / csteApplication.TILE_HEIGHT_IN_IMAGE);
+                readTileDefinitions(StaticClass.TileCSV);
+            }
+                   
 		}
 
 
 		public void Draw(Graphics pGraphics, Rectangle destRect)
 		{
-            Rectangle srcRect = new Rectangle(0, 0, (m_Width - 1) * csteApplication.TILE_WIDTH_IN_IMAGE, (m_Height - 1) * csteApplication.TILE_HEIGHT_IN_IMAGE);
-            Rectangle destRect2 = new Rectangle(0, 0, (m_Width - 1) * csteApplication.TILE_WIDTH_IN_IMAGE, (m_Height - 1) * csteApplication.TILE_HEIGHT_IN_IMAGE);
+            Rectangle srcRect = new Rectangle(0, 0, (m_Width ) * csteApplication.TILE_WIDTH_IN_IMAGE, (m_Height ) * csteApplication.TILE_HEIGHT_IN_IMAGE);
+            Rectangle destRect2 = new Rectangle(0, 0, (m_Width ) * csteApplication.TILE_WIDTH_IN_IMAGE, (m_Height ) * csteApplication.TILE_HEIGHT_IN_IMAGE);
 			pGraphics.DrawImage(m_TileSource, destRect2, srcRect, GraphicsUnit.Pixel);
 		}
 
 		public void DrawTile(Graphics pGraphics, int ID, int X, int Y)
 		{
             Rectangle sourcerect = new Rectangle((ID % csteApplication.TILE_WIDTH_IN_LIBRARY) * csteApplication.TILE_WIDTH_IN_IMAGE, (ID / csteApplication.TILE_HEIGHT_IN_LIBRARY) * csteApplication.TILE_HEIGHT_IN_IMAGE, csteApplication.TILE_WIDTH_IN_IMAGE, csteApplication.TILE_HEIGHT_IN_IMAGE);
-
             Rectangle destrect = new Rectangle(X, Y, csteApplication.TILE_WIDTH_IN_MAP, csteApplication.TILE_HEIGHT_IN_MAP);
+            Tile t = _ObjMonde.Values.First(m => TileToTileID(m.X_Image, m.Y_Image) == ID);
+
+            // Rendre l'image transparent lorsque le spécification du tile le précise
+            if(t.IsTransparent == true)
+            {
+                Bitmap temp = new Bitmap(64, 64);
+                Graphics g = Graphics.FromImage(temp);
+                g.DrawImage(m_TileSource, new Rectangle(0, 0, temp.Width, temp.Height), sourcerect, GraphicsUnit.Pixel);
+                temp.MakeTransparent(temp.GetPixel(1, 1));
+                pGraphics.DrawImage(temp, destrect, new Rectangle(0, 0, temp.Width, temp.Height), GraphicsUnit.Pixel);
+            }
+            else
 			pGraphics.DrawImage(m_TileSource,destrect,sourcerect,GraphicsUnit.Pixel);
 		}
 
 		public void DrawTile(Graphics pGraphics, int ID, Rectangle destrect)
 		{
+                         
             Rectangle sourcerect = new Rectangle((ID % csteApplication.TILE_WIDTH_IN_LIBRARY) * csteApplication.TILE_WIDTH_IN_IMAGE, (ID / csteApplication.TILE_HEIGHT_IN_LIBRARY) * csteApplication.TILE_HEIGHT_IN_IMAGE, csteApplication.TILE_WIDTH_IN_IMAGE, csteApplication.TILE_HEIGHT_IN_IMAGE);
 			pGraphics.DrawImage(m_TileSource,destrect,sourcerect,GraphicsUnit.Pixel);
 		}
@@ -100,7 +126,7 @@ namespace HugoLandEditeur
 				xindex = m_Width;
 			if (yindex > m_Height)
 				yindex = m_Height;
-			return (yindex * 32 + xindex);
+			return (yindex *32 + xindex);
 		}
 
 		public void PointToBoundingRect(int x, int y, ref Rectangle bounding)
@@ -124,19 +150,29 @@ namespace HugoLandEditeur
         /// <param name="tileDescriptionFile"></param>
         private void readTileDefinitions(string tileDescriptionFile)
         {
-            using (StreamReader stream = new StreamReader(tileDescriptionFile))
+            try
             {
-                string line;
-                while ((line = stream.ReadLine()) != null)
+                using (StreamReader stream = new StreamReader(tileDescriptionFile))
                 {
-                    //separate out the elements of the 
-                    string[] elements = line.Split(',');
+                    string line;
+                    while ((line = stream.ReadLine()) != null)
+                    {
+                        //separate out the elements of the 
+                        string[] elements = line.Split(',');
 
-                    Tile objMonde;
-                    objMonde = new Tile(elements);
-                    _ObjMonde.Add(objMonde.Name, objMonde);
+                        Tile objMonde;
+                        objMonde = new Tile(elements);
+                        _ObjMonde.Add(objMonde.Name, objMonde);
+                    }
                 }
             }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+              
+            
+           
         }
 
 	}

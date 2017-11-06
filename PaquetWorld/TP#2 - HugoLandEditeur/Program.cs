@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using PaquetWorld;
 
 namespace HugoLandEditeur
 {
@@ -14,7 +15,8 @@ namespace HugoLandEditeur
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+            Application.Run(new FormLogin());
+
         }
     }
 }

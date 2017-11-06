@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>7.10.3077</ProductVersion>
@@ -22,7 +22,7 @@
     <StartupObject />
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>0.0</OldToolsVersion>
@@ -71,15 +71,27 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
@@ -93,6 +105,32 @@
     </Compile>
     <Compile Include="BitmapCache.cs" />
     <Compile Include="csteApplication.cs" />
+    <Compile Include="Modele\StaticClass.cs" />
+    <Compile Include="Modele\TileCreateur.cs" />
+    <Compile Include="Presentation\AddAdministrateur.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\AddAdministrateur.Designer.cs">
+      <DependentUpon>AddAdministrateur.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\CreateurCSV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\CreateurCSV.Designer.cs">
+      <DependentUpon>CreateurCSV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\CreationJoueurAd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\CreationJoueurAd.Designer.cs">
+      <DependentUpon>CreationJoueurAd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modele\CMap.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -100,6 +138,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Modele\TypeTyle.cs" />
+    <Compile Include="Presentation\LoadMap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\LoadMap.Designer.cs">
+      <DependentUpon>LoadMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\ValidSave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\ValidSave.Designer.cs">
+      <DependentUpon>ValidSave.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -125,8 +175,26 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Modele\Tile.cs" />
+    <EmbeddedResource Include="Presentation\AddAdministrateur.resx">
+      <DependentUpon>AddAdministrateur.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\CreateurCSV.resx">
+      <DependentUpon>CreateurCSV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\CreationJoueurAd.resx">
+      <DependentUpon>CreationJoueurAd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Presentation\frmNew.resx">
       <DependentUpon>frmNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\LoadMap.resx">
+      <DependentUpon>LoadMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\ValidSave.resx">
+      <DependentUpon>ValidSave.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -156,12 +224,23 @@
     <Content Include="GameData\Objets.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\PaquetWorld.CompteJoueur.datasource" />
     <None Include="Resources\HugoLand.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BLL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaquetWorld\PaquetWorld.csproj">
+      <Project>{dad22ff8-971d-4079-98e6-04a276dbe07b}</Project>
+      <Name>PaquetWorld</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

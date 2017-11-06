@@ -11,9 +11,7 @@ namespace PaquetWorld
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-
+    
     public partial class ObjetMonde
     {
         public int Id { get; set; }
@@ -24,6 +22,5 @@ namespace PaquetWorld
         public int MondeId { get; set; }
     
         public virtual Monde Monde { get; set; }
-
     }
 }

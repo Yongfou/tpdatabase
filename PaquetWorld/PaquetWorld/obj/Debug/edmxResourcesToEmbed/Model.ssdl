@@ -83,6 +83,10 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LimiteX" Type="int" Nullable="false" />
     <Property Name="LimiteY" Type="int" Nullable="false" />
+    <Property Name="PathTile" Type="nvarchar(max)" />
+    <Property Name="PathCsv" Type="nvarchar(max)" />
+    <Property Name="DefaultTile" Type="int" />
+    <Property Name="SizeTile" Type="int" />
   </EntityType>
   <EntityType Name="Monstre">
     <Key>

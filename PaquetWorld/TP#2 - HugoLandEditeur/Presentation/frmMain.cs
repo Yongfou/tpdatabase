@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PaquetWorld;
 
 namespace HugoLandEditeur
 {
@@ -16,7 +17,9 @@ namespace HugoLandEditeur
 
 
         private CMap m_Map;
-        private CTileLibrary m_TileLibrary;
+        public CTileLibrary m_TileLibrary;
+        private csApplication csteApplication;
+        public static List<Tile> listeTile = new List<Tile>();
         private int m_XSel;
         private int m_YSel;
         private int m_TilesHoriz;
@@ -31,7 +34,11 @@ namespace HugoLandEditeur
         private int m_ActiveYIndex;
         private int m_ActiveTileID;
         private int m_ActiveTileXIndex;
-        private int m_ActiveTileYIndex;		
+        private int m_ActiveTileYIndex;
+        private int PosX;
+        private int PosY;
+        public static int IdMonde;
+        bool resizeOn = false;
 
         /// <summary>
         /// Summary description for Form1.
@@ -64,65 +71,12 @@ namespace HugoLandEditeur
     \* -------------------------------------------------------------- */
         private void frmMain_Load(object sender, System.EventArgs e)
         {
-            m_Map = new CMap();
-            m_TileLibrary = new CTileLibrary();
-            m_Map.TileLibrary = m_TileLibrary;
-
-            picMap.Parent = picEditArea;
-            picMap.Left = 0;
-            picMap.Top = 0;
-
-            picTiles.Parent = picEditSel;
-            picTiles.Width = m_TileLibrary.Width * csteApplication.TILE_WIDTH_IN_IMAGE;
-            picTiles.Height = m_TileLibrary.Height * csteApplication.TILE_HEIGHT_IN_IMAGE;
-            picTiles.Left = 0;
-            picTiles.Top = 0;
-
-            vscMap.Minimum = 0;
-            vscMap.Maximum = m_Map.Height;
-            m_YSel = 0;
-
-            hscMap.Minimum = 0;
-            hscMap.Maximum = m_Map.Width;
-            m_XSel = 0;
-
-            m_bRefresh = true;
-            m_bResize = true;
-            timer1.Enabled = true;
+            csteApplication = new csApplication();
             m_Zoom = csteApplication.ZOOM;
-
-            m_TileRect = new Rectangle(-1, -1, -1, -1);
-            m_LibRect = new Rectangle(-1, -1, -1, -1);
-            m_ActiveTileID = 32;
-
-            //dlgLoadMap.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\maps\\";
-            //dlgSaveMap.InitialDirectory = dlgLoadMap.InitialDirectory;
-            m_bOpen = false;
-            m_MenuLogic();
-            //tmrLoad.Enabled = true;	
-
-            m_pen = new Pen(Color.Orange, 4);
-            m_brush = new SolidBrush(Color.FromArgb(160, 249, 174, 55));
-            m_brush2 = new SolidBrush(Color.FromArgb(160, 255, 0, 0));
-
-            m_bDrawTileRect = false;
-            m_bDrawMapRect = false;
-
-            cboZoom.Left = 270;
-            cboZoom.Top = 2;
-            cboZoom.Items.Add(new ComboItem("1X", 1));
-            cboZoom.Items.Add(new ComboItem("2X", 2));
-            cboZoom.Items.Add(new ComboItem("4X", 4));
-            cboZoom.Items.Add(new ComboItem("8X", 8));
-            cboZoom.Items.Add(new ComboItem("16X", 16));
-            cboZoom.SelectedIndex = 1;
-            cboZoom.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            lblZoom.Left = 180;
-            lblZoom.Top = 2;
-
-            tbMain.Controls.Add(lblZoom);
-            tbMain.Controls.Add(cboZoom);
+            timer1.Enabled = true;
+            StaticClass.SizeTileHeight = 32;
+            StaticClass.SizeTileWidth = 32;
+            
         }
 
 
@@ -145,6 +99,7 @@ namespace HugoLandEditeur
         {
             ResetScroll();
             m_Zoom = 1;
+            //m_ResizeMap();
             m_bResize = true;
         }
 
@@ -206,7 +161,7 @@ namespace HugoLandEditeur
         private void vscMap_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             m_YSel = e.NewValue;
-            if (m_bOpen)
+            //if (m_bOpen)
                 picMap.Refresh();
         }
 
@@ -217,7 +172,7 @@ namespace HugoLandEditeur
         private void hscMap_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e)
         {
             m_XSel = e.NewValue;
-            if (m_bOpen)
+            //if (m_bOpen)
                 picMap.Refresh();
         }
 
@@ -278,17 +233,21 @@ namespace HugoLandEditeur
         \* -------------------------------------------------------------- */
         private void picMap_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            if (m_bOpen)
+            if(m_Zoom != 0)
             {
-                if (m_XSel < 0)
-                    m_XSel = 0;
-                if (m_YSel < 0)
-                    m_YSel = 0;
-                m_Map.Draw(e.Graphics, e.ClipRectangle, m_XSel, m_YSel);
+                if (m_bOpen)
+                {
+                    if (m_XSel < 0)
+                        m_XSel = 0;
+                    if (m_YSel < 0)
+                        m_YSel = 0;
+                    m_Map.Draw(e.Graphics, e.ClipRectangle, m_XSel, m_YSel);
 
-                if (m_bDrawMapRect)
-                    e.Graphics.FillRectangle(m_brush, m_TileRect);
+                    if (m_bDrawMapRect)
+                        e.Graphics.FillRectangle(m_brush, m_TileRect);
+                }
             }
+           
         }
 
         /* -------------------------------------------------------------- *\
@@ -298,6 +257,8 @@ namespace HugoLandEditeur
         \* -------------------------------------------------------------- */
         private void m_ResizeMap()
         {
+
+
             int xpos, ypos;
             int nWidth = (vscMap.Left - 0); //picEditArea.Left);
             int AvailableWidth = nWidth - (2 * csteApplication.BUFFER_WIDTH);
@@ -354,6 +315,8 @@ namespace HugoLandEditeur
             picMap.Size = new Size(nMapWidth, nMapHeight);
 
             m_bRefresh = true;
+
+
         }
 
 
@@ -365,21 +328,26 @@ namespace HugoLandEditeur
         \* -------------------------------------------------------------- */
         private void picMap_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (e.X < 0 || e.Y < 0)
-                return;
-            if (e.X < m_TileRect.Left || e.X > m_TileRect.Right || e.Y < m_TileRect.Top || e.Y > m_TileRect.Bottom)
+            if (m_TileLibrary != null)
             {
-                m_bDrawMapRect = true;
+                if (e.X < 0 || e.Y < 0)
+                    return;
+                if (e.X < m_TileRect.Left || e.X > m_TileRect.Right || e.Y < m_TileRect.Top || e.Y > m_TileRect.Bottom)
+                {
+                    m_bDrawMapRect = true;
 
-                m_Map.PointToTile(e.X, e.Y, ref m_ActiveXIndex, ref m_ActiveYIndex);
-                m_Map.PointToBoundingRect(e.X, e.Y, ref m_TileRect);
-                m_ActiveXIndex += m_XSel;
-                m_ActiveYIndex += m_YSel;
+                    m_Map.PointToTile(e.X, e.Y, ref m_ActiveXIndex, ref m_ActiveYIndex);
+                    
+                    m_Map.PointToBoundingRect(e.X, e.Y, ref m_TileRect);
+                    m_ActiveXIndex += m_XSel;
+                    m_ActiveYIndex += m_YSel;
 
-                m_bRefresh = true;
+                    m_bRefresh = true;
 
-                PrintDebug("XIndex = " + m_ActiveXIndex.ToString() + " YIndex = " + m_ActiveYIndex.ToString());
-            }
+                    PrintDebug("XIndex = " + m_ActiveXIndex.ToString() + " YIndex = " + m_ActiveYIndex.ToString());
+                }
+            } 
+                   
         }
 
         /* -------------------------------------------------------------- *\
@@ -392,7 +360,9 @@ namespace HugoLandEditeur
         {
             //hUGO : mODIFIER ICI POUR AVOIR le tile et le type
             m_Map.PlotTile(m_ActiveXIndex, m_ActiveYIndex, m_ActiveTileID);
-
+            
+            TrouverTile(m_ActiveXIndex, m_ActiveYIndex);
+            picTiles.Refresh();
             m_bRefresh = true;
         }
 
@@ -440,20 +410,24 @@ namespace HugoLandEditeur
         \* -------------------------------------------------------------- */
         private void picTiles_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (e.X < 0 || e.Y < 0)
-                return;
-            if (e.X < m_LibRect.Left || e.X > m_LibRect.Right || e.Y < m_LibRect.Top || e.Y > m_LibRect.Bottom)
+            if (m_TileLibrary != null)
             {
-                m_bDrawTileRect = true;
+                if (e.X < 0 || e.Y < 0)
+                    return;
+                if (e.X < m_LibRect.Left || e.X > m_LibRect.Right || e.Y < m_LibRect.Top || e.Y > m_LibRect.Bottom)
+                {
+                    m_bDrawTileRect = true;
 
-                m_TileLibrary.PointToTile(e.X, e.Y, ref m_ActiveTileXIndex, ref m_ActiveTileYIndex);
-                m_TileLibrary.PointToBoundingRect(e.X, e.Y, ref m_LibRect);
+                    m_TileLibrary.PointToTile(e.X, e.Y, ref m_ActiveTileXIndex, ref m_ActiveTileYIndex);                  
+                    m_TileLibrary.PointToBoundingRect(e.X, e.Y, ref m_LibRect);
+                    
+                    m_bRefreshLib = true;
 
-                m_bRefreshLib = true;
-
-                PrintDebug("TileXIndex = " + m_ActiveTileXIndex.ToString() + " TileYIndex = " + m_ActiveTileYIndex.ToString());
-                PrintDebug("X = " + e.X.ToString() + " Y = " + e.Y.ToString());
+                    PrintDebug("TileXIndex = " + m_ActiveTileXIndex.ToString() + " TileYIndex = " + m_ActiveTileYIndex.ToString());
+                    PrintDebug("X = " + e.X.ToString() + " Y = " + e.Y.ToString());
+                }
             }
+           
         }
 
         /* -------------------------------------------------------------- *\
@@ -478,8 +452,12 @@ namespace HugoLandEditeur
         \* -------------------------------------------------------------- */
         private void picActiveTile_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            Rectangle destrect = new Rectangle(0, 0, picActiveTile.Width, picActiveTile.Height);
-            m_TileLibrary.DrawTile(e.Graphics, m_ActiveTileID, destrect);
+            if (m_TileLibrary != null)
+            {
+                Rectangle destrect = new Rectangle(0, 0, picActiveTile.Width, picActiveTile.Height);
+                m_TileLibrary.DrawTile(e.Graphics, m_ActiveTileID, destrect);
+            }
+            
         }
 
         /* -------------------------------------------------------------- *\
@@ -506,61 +484,176 @@ namespace HugoLandEditeur
         }
         #endregion
 
+//todo:load 
+
+        /// <summary>
+        /// Auteur: Sébastien Paquet 
+        /// Description: Méthode qui load un monde
+        /// Date:23-10-2017
+        /// </summary>
         private void LoadMap()
         {
-            //DialogResult result;
+            listeTile.Clear();
+            try
+            {
+                bool bResult;
+                LoadMap map = new LoadMap();
+                m_Map = new CMap();
 
-            //dlgLoadMap.Title = "Load Map";
-            //dlgLoadMap.Filter = "Map Files (*.map)|*.map|All Files (*.*)|*.*";
+                DialogResult dr = map.ShowDialog(this);
+                csteApplication = new csApplication();
+                m_Zoom = csteApplication.ZOOM;
 
-            //result = dlgLoadMap.ShowDialog();
-            //if (result == DialogResult.OK)
-            //{
-            //    m_bOpen = false;
-            //    picMap.Visible = false;
-            //    this.Cursor = Cursors.WaitCursor;
-            //    try
-            //    {
-            //        m_Map.Load(dlgLoadMap.FileName);
-            //        m_bOpen = true;
-            //        m_bRefresh = true;
-            //        picMap.Visible = true;
-            //    }
-            //    catch
-            //    {
-            //        Console.WriteLine("Error Loading...");
-            //    }
-            //    m_MenuLogic();
-            //    this.Cursor = Cursors.Default;
-            //}
+                m_TileLibrary = new CTileLibrary();
+                m_Map.TileLibrary = m_TileLibrary;
+                IdMonde = map.IdMonde;
+                Monde md = new Monde();
+
+                using (Entities context = new Entities())
+                {
+                    md = context.Mondes.First(m => m.Id == IdMonde);
+                }
+
+                picEditSel.Width = m_TileLibrary.ReelLargeur;
+                picEditSel.Height = m_TileLibrary.ReelLongeur;
+                vscTiles.Maximum = m_TileLibrary.ReelLongeur;
+                m_bRefreshLib = true;
+
+                picMap.Parent = picEditArea;
+                picMap.Left = 0;
+                picMap.Top = 0;
+
+                picTiles.Parent = picEditSel;
+                picTiles.Width = m_TileLibrary.Width * csteApplication.TILE_WIDTH_IN_IMAGE;
+                picTiles.Height = m_TileLibrary.Height * csteApplication.TILE_HEIGHT_IN_IMAGE;
+                picTiles.Left = 0;
+                picTiles.Top = 0;
+
+                vscMap.Minimum = 0;
+                vscMap.Maximum = m_Map.Height;
+                m_YSel = 0;
+
+                hscMap.Minimum = 0;
+                hscMap.Maximum = m_Map.Width;
+                m_XSel = 0;
+
+                m_TileRect = new Rectangle(-1, -1, -1, -1);
+                m_LibRect = new Rectangle(-1, -1, -1, -1);
+                m_ActiveTileID = StaticClass.TileBase;
+                picActiveTile.Refresh();
+                m_bOpen = false;
+                m_MenuLogic();
+                m_pen = new Pen(Color.Orange, 4);
+                m_brush = new SolidBrush(Color.FromArgb(160, 249, 174, 55));
+                m_brush2 = new SolidBrush(Color.FromArgb(160, 255, 0, 0));
+                m_bDrawTileRect = false;
+                m_bDrawMapRect = false;
+
+                cboZoom.Left = 270;
+                cboZoom.Top = 2;
+                if (cboZoom.SelectedIndex < 1)
+                {
+                    cboZoom.Items.Add(new ComboItem("1X", 1));
+                    cboZoom.Items.Add(new ComboItem("2X", 2));
+                    cboZoom.Items.Add(new ComboItem("4X", 4));
+                    cboZoom.Items.Add(new ComboItem("8X", 8));
+                    cboZoom.Items.Add(new ComboItem("16X", 16));
+                }
+                cboZoom.SelectedIndex = 1;
+                cboZoom.DropDownStyle = ComboBoxStyle.DropDownList;
+
+                lblZoom.Left = 180;
+                lblZoom.Top = 2;
+
+                tbMain.Controls.Add(lblZoom);
+                tbMain.Controls.Add(cboZoom);
+                if (dr == DialogResult.Cancel)
+                {
+                    map.Close();
+                }
+                else
+                {
+
+                    m_bOpen = false;
+                    picMap.Visible = false;
+                    this.Cursor = Cursors.WaitCursor;
+                    try
+                    {
+                        bResult = m_Map.CreateNew(md.LimiteX, md.LimiteY, StaticClass.TileBase);
+                        if (bResult)
+                        {
+                            m_Map.Load(IdMonde);
+                            m_ResizeMap();
+                            m_bOpen = true;
+                            m_bResize = true;
+                            picMap.Visible = true;
+                            resizeOn = true;
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error Creating...");
+                    }
+                    m_MenuLogic();
+                    this.Cursor = Cursors.Default;
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+            
         }
 
-        /* -------------------------------------------------------------- *\
-            m_SaveMap()
-			
-            - Saves the current map to the selected filename / path
-        \* -------------------------------------------------------------- */
+ //todo:Save
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description: Méthode qui sauvegarde un monde 
+        /// Date:23-10-2017
+        /// </summary>
         private void m_SaveMap()
         {
-            //DialogResult result;
 
-            //dlgSaveMap.Title = "Save Map";
-            //dlgSaveMap.Filter = "Map File (*.map)|*.map";
+            ValidSave validSave = new ValidSave();
+            if(IdMonde > 0)
+            {
+                validSave.Txt = false;
+            }
 
-            //result = dlgSaveMap.ShowDialog();
-            //if (result == DialogResult.OK)
-            //{
-            //    this.Cursor = Cursors.WaitCursor;
-            //    try
-            //    {
-            //        m_Map.Save(dlgSaveMap.FileName);
-            //    }
-            //    catch
-            //    {
-            //        Console.WriteLine("Error Saving...");
-            //    }
-            //    this.Cursor = Cursors.Default;
-            //}
+            DialogResult dr = validSave.ShowDialog(this);
+            if (dr == DialogResult.Cancel)
+            {
+                validSave.Close();
+            }
+            else if (dr == DialogResult.OK)
+            {
+                if(IdMonde == 0)
+                {
+                    IdMonde = PaquetWorld.MthMonde.CreerMonde(validSave.Nom, m_Map.Width, m_Map.Height,StaticClass.TileData,StaticClass.TileCSV,StaticClass.TileBase,StaticClass.SizeTileHeight);
+
+                }
+                PaquetWorld.MthItem.SupprimerTousItemMonde(IdMonde);
+                PaquetWorld.MthMonstre.SupprimerTousMonstreMonde(IdMonde);
+                PaquetWorld.MthObjetMonde.SupprimerTousMondeobjetMonde(IdMonde);
+                foreach (Tile t in listeTile)
+                {
+                    
+                    if(t.TypeObjet == TypeTile.Item)
+                    {
+                        PaquetWorld.MthItem.CreerItem(t.Name, t.Category, t.X_Image, t.Y_Image, IdMonde,t.IdImage);
+                    }
+                    else if(t.TypeObjet == TypeTile.ObjetMonde)
+                    {
+                        PaquetWorld.MthObjetMonde.CreerObjetMonde(t.Name, t.X_Image, t.Y_Image,t.Typeobjet, IdMonde);
+                    }
+                    else if(t.TypeObjet == TypeTile.Monstre)
+                    {
+                        PaquetWorld.MthMonstre.CreerMonstre(t.Name, t.X_Image, t.Y_Image, IdMonde,t.IdImage);
+                    }
+                }
+                validSave.Close();
+            }
+
         }
 
         /* -------------------------------------------------------------- *\
@@ -570,29 +663,93 @@ namespace HugoLandEditeur
         \* -------------------------------------------------------------- */
         private void NewMap()
         {
+
             frmNew f;
             DialogResult result;
             bool bResult;
-
             f = new frmNew();
-            f.MapWidth = m_Map.Width;
-            f.MapHeight = m_Map.Height;
+            m_Map = new CMap();
+
+            f.MapWidth = 0;
+            f.MapHeight = 0;
 
             result = f.ShowDialog(this);
+            csteApplication = new csApplication();
+            m_TileLibrary = new CTileLibrary();
+            picEditSel.Width = m_TileLibrary.ReelLargeur;
+            picEditSel.Height = m_TileLibrary.ReelLongeur;
+            vscTiles.Maximum = m_TileLibrary.ReelLongeur;
+            m_bRefreshLib = true;
+
+            m_Map.TileLibrary = m_TileLibrary;
+
+            picMap.Parent = picEditArea;
+            picMap.Left = 0;
+            picMap.Top = 0;
+
+            picTiles.Parent = picEditSel;
+            picTiles.Width = m_TileLibrary.Width * csteApplication.TILE_WIDTH_IN_IMAGE;
+            picTiles.Height = m_TileLibrary.Height * csteApplication.TILE_HEIGHT_IN_IMAGE;
+            picTiles.Left = 0;
+            picTiles.Top = 0;
+
+            vscMap.Minimum = 0;
+            vscMap.Maximum = m_Map.Height;
+            m_YSel = 0;
+
+            hscMap.Minimum = 0;
+            hscMap.Maximum = m_Map.Width;
+            m_XSel = 0;
+
+            
+            
+
+            m_TileRect = new Rectangle(-1, -1, -1, -1);
+            m_LibRect = new Rectangle(-1, -1, -1, -1);
+            m_ActiveTileID = StaticClass.TileBase;
+            picActiveTile.Refresh();
+            m_bOpen = false;
+            m_MenuLogic();
+            m_pen = new Pen(Color.Orange, 4);
+            m_brush = new SolidBrush(Color.FromArgb(160, 249, 174, 55));
+            m_brush2 = new SolidBrush(Color.FromArgb(160, 255, 0, 0));
+            m_bDrawTileRect = false;
+            m_bDrawMapRect = false;
+
+            cboZoom.Left = 270;
+            cboZoom.Top = 2;
+            if (cboZoom.SelectedIndex < 1)
+            {
+                cboZoom.Items.Add(new ComboItem("1X", 1));
+                cboZoom.Items.Add(new ComboItem("2X", 2));
+                cboZoom.Items.Add(new ComboItem("4X", 4));
+                cboZoom.Items.Add(new ComboItem("8X", 8));
+                cboZoom.Items.Add(new ComboItem("16X", 16));
+            }
+            cboZoom.SelectedIndex = 1;
+            cboZoom.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            lblZoom.Left = 180;
+            lblZoom.Top = 2;
+            tbMain.Controls.Add(lblZoom);
+            tbMain.Controls.Add(cboZoom);
             if (result == DialogResult.OK)
             {
+                IdMonde = 0;
+
                 m_bOpen = false;
                 picMap.Visible = false;
                 this.Cursor = Cursors.WaitCursor;
                 try
                 {
-                    bResult = m_Map.CreateNew(f.MapWidth, f.MapHeight, 32);
+                    bResult = m_Map.CreateNew(f.MapWidth, f.MapHeight, StaticClass.TileBase);
                     if (bResult)
                     {
+                        m_ResizeMap();
                         m_bOpen = true;
-                        m_bRefresh = true;
                         m_bResize = true;
                         picMap.Visible = true;
+                        resizeOn = true;
                     }
                 }
                 catch
@@ -662,7 +819,64 @@ namespace HugoLandEditeur
 
         private void mnuCreateNewUser_Click(object sender, EventArgs e)
         {
+            CreationJoueurAd cj = new CreationJoueurAd();
+            cj.Show();
+        }
 
+        private void menuNewTile_Click(object sender, EventArgs e)
+        {
+            CreateurCSV cs = new CreateurCSV();
+            cs.ShowDialog(this);
+        }
+
+        private void TrouverTile(int iPosMapX, int iPOsMapY)
+        {
+            int X = PosX / StaticClass.SizeTileWidth;
+            int Y = PosY / StaticClass.SizeTileHeight;
+            var req = m_TileLibrary.ObjMonde.First(c => c.Value.X_Image == X && c.Value.Y_Image == Y);
+            Tile t = new Tile();
+            t.Category = req.Value.Category;
+            t.Color = req.Value.Color;
+            t.Health = req.Value.Health;
+            t.IndexTypeObjet = req.Value.IndexTypeObjet;
+            t.IsBlock = req.Value.IsBlock;
+            t.IsTransparent = req.Value.IsTransparent;
+            t.Name = req.Value.Name;
+            t.NumberOfFrames = req.Value.NumberOfFrames;
+            t.Rectangle = req.Value.Rectangle;
+            t.TypeObjet = req.Value.TypeObjet;
+            t.X_Image = iPosMapX;
+            t.Y_Image = iPOsMapY;
+            t.IdImage = 0;
+            t.Typeobjet = 0;
+            listeTile.Add(t);
+        }
+
+        private void picTiles_MouseUp(object sender, MouseEventArgs e)
+        {
+            PosX = e.X;
+            PosY = e.Y;
+        }
+
+        private void frmMain_Leave(object sender, EventArgs e)
+        {
+            Application.Exit();
+
+        }
+
+        private void frmMain_ResizeEnd(object sender, EventArgs e)
+        {
+            if (resizeOn == true)
+            {
+                m_ResizeMap();
+                ResetScroll();
+            }
+        }
+
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+            AddAdministrateur ad = new AddAdministrateur();
+            ad.Show();
         }
     }
 }

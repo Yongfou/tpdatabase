@@ -11,7 +11,7 @@ namespace PaquetWorld
 {
     public static class MthCompteJoueur
     {
-        //public static List<string> utilisateurs = new List<string>();
+        private static string _message;
         /// <summary>
         /// Auteur:Sébastien Paquet
         /// Description:Méthode qui créé un compte joueur
@@ -85,8 +85,24 @@ namespace PaquetWorld
             d.cmd.Connection = d.con;
             d.cmd.ExecuteNonQuery();
             d.Deconnecter();
-
+            _message = message.Value.ToString();
             return message.Value.ToString();
         }
+
+        public static bool LoginJoueur(string sNom)
+        {
+            bool bAdmin = false;
+            using (Entities context = new Entities())
+            {
+                    CompteJoueur cj = context.CompteJoueurs.First(c => c.NomJoueur == sNom);
+                    if (cj.TypeUtilisateur == 1)
+                    {
+                        bAdmin = true;
+                    }                
+            }
+
+            return bAdmin;
+        }
     }
+
 }

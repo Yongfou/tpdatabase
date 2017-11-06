@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using PaquetWorld;
+using System.Linq;
 
 namespace HugoLandEditeur
 {
@@ -11,7 +13,7 @@ namespace HugoLandEditeur
     /// </summary>
     public class CMap
     {
-
+        private csApplication csteApplication = new csApplication();
         private int m_Width;			// map width (tiles)
         private int m_Height;			// map height (tiles)
         private int m_DefaultTileID;	// default tile id for outside normal bounds
@@ -152,6 +154,7 @@ namespace HugoLandEditeur
             destRect.Y = yindex * m_Zoom * csteApplication.TILE_HEIGHT_IN_MAP;
             destRect.Width = (m_nTilesHoriz - xindex) * csteApplication.TILE_WIDTH_IN_MAP * m_Zoom;
             destRect.Height = (m_nTilesVert - yindex) * csteApplication.TILE_HEIGHT_IN_MAP * m_Zoom;
+           
 
             Rectangle srcRect = new Rectangle((TileX + xindex) * csteApplication.TILE_WIDTH_IN_MAP, (TileY + yindex) * csteApplication.TILE_HEIGHT_IN_MAP, (m_nTilesHoriz - xindex) * csteApplication.TILE_WIDTH_IN_MAP, (m_nTilesVert - yindex) * csteApplication.TILE_HEIGHT_IN_MAP);
             pGraphics.DrawImage(m_BackBuffer, destRect, srcRect, GraphicsUnit.Pixel);
@@ -159,7 +162,6 @@ namespace HugoLandEditeur
 
         public void PointToTile(int x, int y, ref int xindex, ref int yindex)
         {
-            // unscale zoom;
             x = x / m_Zoom;
             y = y / m_Zoom;
 
@@ -182,139 +184,72 @@ namespace HugoLandEditeur
         {
             if (xindex < 0 || yindex < 0 || yindex >= m_Height || xindex >= m_Width)
                 return;
+
             m_Tiles[yindex, xindex] = TileID;
             m_TileLibrary.DrawTile(m_BackBufferDC, TileID, xindex * csteApplication.TILE_WIDTH_IN_MAP, yindex * csteApplication.TILE_HEIGHT_IN_MAP);
 
         }
 
-        public int Save(String strFilename)
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description: Méthode qui load le monde selon l'id du monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="iId">Variable qui prend l'id du monde</param>
+        public void Load(int iId)
         {
-            //int i,j;
+           
+            List<ObjetMonde> listeobjetmonde = PaquetWorld.MthObjetMonde.ListeObjetMonde(iId);
+            foreach(ObjetMonde om in listeobjetmonde)
+            {
+                var req = m_TileLibrary.ObjMonde.First(c => c.Value.Name == om.Description);
+                int id = m_TileLibrary.TileToTileID(req.Value.X_Image, req.Value.Y_Image);
+                PlotTile(om.x, om.y, id);
+                Tile t = new Tile();
+                t.Name = om.Description;
+                t.X_Image = om.x;
+                t.Y_Image = om.y;
+                t.IdMonde = om.MondeId;
+                t.Typeobjet = om.TypeObjet;
+                frmMain.listeTile.Add(t);
+                   
+            }
 
-            //FileStream file = new FileStream(strFilename, FileMode.Create, FileAccess.Write);
-            //StreamWriter sw = new StreamWriter(file);
+            List<Item> listeItems = PaquetWorld.MthItem.ListeItems(iId);
+            foreach(Item i in listeItems)
+            {
+                var req = m_TileLibrary.ObjMonde.First(x => x.Value.Name == i.Nom);
+                int id = m_TileLibrary.TileToTileID(req.Value.X_Image, req.Value.Y_Image);
+                if(i.x != null||i.y != null)
+                {
+                    PlotTile((int)i.x, (int)i.y, id);
+                    Tile t = new Tile();
+                    t.Name = i.Nom; 
+                    t.Category = i.Description;
+                    t.X_Image =(int) i.x;
+                    t.Y_Image =(int) i.y;
+                    t.IdMonde = i.MondeId;
+                    frmMain.listeTile.Add(t);
+                }
+                
+            }
 
-            //sw.WriteLine("ID: {0}",MAPFILE_ID.ToString());
-            //sw.WriteLine("WIDTH: {0}",m_Width.ToString());
-            //sw.WriteLine("HEIGHT: {0}",m_Height.ToString());
-            //sw.WriteLine("DATA:");
+            List<Monstre> ListeMonstres = PaquetWorld.MthMonstre.ListeMonstres(iId);
+            foreach(Monstre m in ListeMonstres)
+            {
+                var req = m_TileLibrary.ObjMonde.First(y => y.Value.Name == m.Nom);
+                int id = m_TileLibrary.TileToTileID(req.Value.X_Image, req.Value.Y_Image);
+                PlotTile(m.x, m.y, id);
+                Tile t = new Tile();
+                t.Name = m.Nom;
+                t.X_Image = (int)m.x;
+                t.Y_Image = (int)m.y;
+                t.IdMonde = m.MondeId;
+                t.IdImage =(int) m.ImageId;
+                frmMain.listeTile.Add(t);
+                
 
-            //for (i=0; i<m_Height; i++)
-            //{
-            //    for (j=0; j<m_Width; j++)
-            //        sw.Write("{0},", m_Tiles[i,j]);
-            //    sw.WriteLine();
-            //}
-            //sw.Close();
-
-            return 0;
-        }
-
-        public int Load(String strFilename)
-        {
-            //int i;
-
-            //FileStream file;						
-            //StreamReader sr;
-            //String strLine;
-            //int index;
-            //char[] delim = {':'};
-            //char[] delim2 = {','};
-            //int id = -1;
-            //int width = -1;
-            //int height = -1;
-            //int data = -1;
-            //String strVar;
-            //String strValue;
-            //String[] arrValues;
-            //int count;
-            //int[] arrData;
-            //int rowcount = 0;
-
-            //arrData = new int[128];
-
-            //try
-            //{
-            //    file = new FileStream(strFilename, FileMode.Open, FileAccess.Read);
-            //    sr = new StreamReader(file);
-            //}
-            //catch
-            //{
-            //    return -1;
-            //}
-
-            //while(sr.Peek() >= 0)
-            //{					
-            //    strLine = sr.ReadLine();
-            //    index = strLine.IndexOfAny(delim);
-            //    if (index > 0)
-            //    {
-            //        strVar = strLine.Substring(0,index);
-            //        strVar = strVar.Trim();					
-            //        strVar = strVar.ToLower();
-            //        strValue = strLine.Substring(index+1);
-            //        strValue = strValue.Trim();
-            //        strValue = strValue.ToLower();
-
-            //        if (strVar == "id")
-            //            id = Convert.ToInt32(strValue);
-            //        else if (strVar == "width")
-            //            width = Convert.ToInt32(strValue);
-            //        else if (strVar == "height")
-            //            height = Convert.ToInt32(strValue);
-            //        else if (strVar == "data")
-            //        {
-            //            data = 1;						
-            //            break;
-            //        }
-            //    }
-            //}
-
-            //if (width <= 0 || height <=0 || data < 0 || id < 0)
-            //    return -1;
-            //if (width < 8 || width > MAP_MAX_WIDTH)
-            //    return -1;
-            //if (height < 8 || height > MAP_MAX_HEIGHT)
-            //    return -1;
-
-            //// Build Backbuffer
-            //m_Width = width;
-            //m_Height = height;
-            //m_Tiles = new int[m_Height,m_Width];
-            //m_BackBuffer = new Bitmap(m_Width * TILE_WIDTH_IN_MAP, m_Height * TILE_HEIGHT_IN_MAP);
-            //m_BackBufferDC = Graphics.FromImage(m_BackBuffer);
-
-            //while(sr.Peek() >= 0)
-            //{
-            //    strLine = sr.ReadLine();
-            //    strLine = strLine.Trim();
-            //    if (strLine.Length > 1)
-            //    {
-            //        arrValues = strLine.Split(delim2);
-
-            //        count = 0;
-            //        for (i=0; i<=arrValues.GetUpperBound(0); i++)
-            //        {
-            //            strValue = arrValues[i].Trim();
-            //            if (strValue.Length > 0)
-            //            {
-            //                arrData[count] = Convert.ToByte(arrValues[i],10);
-            //                count++;
-            //            }
-            //        }
-            //        if (count != width)
-            //            return -1;
-
-            //        for (i=0; i<width; i++)
-            //            m_Tiles[rowcount,i] = arrData[i];
-            //        rowcount++;
-            //    }
-            //}			
-            //sr.Close();
-
-            //Refresh();
-
-            return 0;
+            }
         }
 
         public bool CreateNew(int width, int height, int defaulttile)
@@ -343,7 +278,7 @@ namespace HugoLandEditeur
 
                 Refresh();
             }
-            catch
+             catch(Exception e)
             {
                 return false;
             }

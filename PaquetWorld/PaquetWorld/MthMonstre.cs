@@ -68,7 +68,7 @@ namespace PaquetWorld
                     }
                     context.Monstres.Add(ms);
                     context.SaveChanges();
-                    MessageBox.Show("Le monstre à bien été créé", "Création réussi");
+                    //MessageBox.Show("Le monstre à bien été créé", "Création réussi");
 
 
                 }
@@ -102,7 +102,7 @@ namespace PaquetWorld
                     Monstre ms = context.Monstres.Find(iIdMonstre);
                     context.Monstres.Remove(ms);
                     context.SaveChanges();
-                    MessageBox.Show("Le monstre à bien été suprimé", "Supression réussi");
+                    //MessageBox.Show("Le monstre à bien été suprimé", "Supression réussi");
 
                 }
                 catch (Exception e)
@@ -152,7 +152,7 @@ namespace PaquetWorld
                     ms.MondeId = iIdmonde;
                     context.SaveChanges();
 
-                    MessageBox.Show("Le monstre "+ iIdMonstre+" à bien été modifié", "Modification réussi");
+                    //MessageBox.Show("Le monstre "+ iIdMonstre+" à bien été modifié", "Modification réussi");
 
 
                 }
@@ -173,8 +173,61 @@ namespace PaquetWorld
                 }
             }
         }
-        
 
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description: Méthode qui supprime tous les mondtre d'un monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="IdMonde"></param>
+        public static void SupprimerTousMonstreMonde(int IdMonde)
+        {
+            using (Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.Monstres.Where(i => i.MondeId == IdMonde);
+                    foreach (Monstre i in req)
+                    {
+                        context.Monstres.Remove(i);
+                    }
+                    context.SaveChanges();
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Auteur: Sébastien PAquet
+        /// Description: Méthode qui liste tous les monnstre d'un monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="idMOnde"></param>
+        /// <returns></returns>
+        public static List<Monstre> ListeMonstres(int idMOnde)
+        {
+            List<Monstre> liste = new List<Monstre>();
+            using (Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.Monstres.Where(o => o.MondeId == idMOnde);
+                    foreach (Monstre m in req)
+                    {
+                        liste.Add(m);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            return liste;
+        }
         #endregion
     }
 }

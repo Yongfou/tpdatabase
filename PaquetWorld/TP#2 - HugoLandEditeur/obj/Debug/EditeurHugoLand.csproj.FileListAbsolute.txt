@@ -47,3 +47,37 @@ D:\Hugo St-Louis\Cours A2017\420-GED-HY\TP\TP#2 Editeur\TP#2 - HugoLandEditeur\o
 D:\Hugo St-Louis\Cours A2017\420-GED-HY\TP\TP#2 Editeur\TP#2 - HugoLandEditeur\obj\Debug\EditeurHugoLand.csproj.CoreCompileInputs.cache
 D:\Hugo St-Louis\Cours A2017\420-GED-HY\TP\TP#2 Editeur\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.exe
 D:\Hugo St-Louis\Cours A2017\420-GED-HY\TP\TP#2 Editeur\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.pdb
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\GameData\Animations.bmp
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\GameData\Inventaires.bmp
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\GameData\Monstres.bmp
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\GameData\Objets.bmp
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\Resources\HugoLand.jpg
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\HugoLandEditeur.exe.config
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\HugoLandEditeur.exe
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\HugoLandEditeur.pdb
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\EntityFramework.dll
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\EntityFramework.SqlServer.dll
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\Newtonsoft.Json.dll
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\PaquetWorld.exe
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\PaquetWorld.pdb
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\PaquetWorld.exe.config
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\EntityFramework.xml
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\EntityFramework.SqlServer.xml
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\Newtonsoft.Json.xml
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\fr\EntityFramework.resources.dll
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\bin\Debug\fr\EntityFramework.SqlServer.resources.dll
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\EditeurHugoLand.csprojResolveAssemblyReference.cache
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.AddAdministrateur.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.CreateurCSV.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.CreationJoueurAd.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.FormLogin.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.frmNew.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.LoadMap.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.ValidSave.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.Properties.Resources.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.frmAbout.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.frmMain.resources
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\EditeurHugoLand.csproj.GenerateResource.Cache
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\EditeurHugoLand.csproj.CoreCompileInputs.cache
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.exe
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\TP#2 - HugoLandEditeur\obj\Debug\HugoLandEditeur.pdb

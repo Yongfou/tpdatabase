@@ -11,9 +11,7 @@ namespace PaquetWorld
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
-
+    
     public partial class Monde
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -30,6 +28,10 @@ namespace PaquetWorld
         public string Description { get; set; }
         public int LimiteX { get; set; }
         public int LimiteY { get; set; }
+        public string PathTile { get; set; }
+        public string PathCsv { get; set; }
+        public Nullable<int> DefaultTile { get; set; }
+        public Nullable<int> SizeTile { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Classe> Classes { get; set; }
@@ -41,6 +43,5 @@ namespace PaquetWorld
         public virtual ICollection<Monstre> Monstres { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ObjetMonde> ObjetMondes { get; set; }
-
     }
 }

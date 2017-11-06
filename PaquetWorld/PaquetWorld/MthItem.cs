@@ -22,7 +22,7 @@ namespace PaquetWorld
         /// <param name="iIdMonde">Variable qui prend l'id du monde</param>
         /// <param name="iIdimage">Variable qui prend l'id de l'image</param>
         /// <param name="iIdHero">Variable qui prend l'id du Héro</param>
-        public static void CreerItem(string sNom, string sDescription, int iPosX, int iPosY, int iIdMonde, int iIdimage, int iIdHero)
+        public static void CreerItem(string sNom, string sDescription, int iPosX, int iPosY, int iIdMonde, int iIdimage)
         {
             using (Entities context = new Entities())
             {
@@ -31,7 +31,6 @@ namespace PaquetWorld
                 try
                 {
                      m = context.Mondes.Find(iIdMonde);
-                    hr = context.Heros.Find(iIdHero);
                     Item i = new Item();
                     i.Nom = sNom;
                     i.Description = sDescription;
@@ -39,10 +38,9 @@ namespace PaquetWorld
                     i.y = iPosY;
                     i.MondeId = m.Id;
                     i.ImageId = iIdimage;
-                    i.IdHero = hr.Id;
                     context.Items.Add(i);
                     context.SaveChanges();
-                    MessageBox.Show("L'item " + sNom + " à bien été créé", "Création réussi");
+                    //MessageBox.Show("L'item " + sNom + " à bien été créé", "Création réussi");
 
                 }
                 catch (Exception e)
@@ -50,10 +48,6 @@ namespace PaquetWorld
                     if (m == null)
                     {
                         MessageBox.Show("l'id (" + iIdMonde + ") du monde n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    else if (hr == null)
-                    {
-                        MessageBox.Show("l'id (" + iIdHero + ") du héro n'exite pas", "Id invalide", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
@@ -79,7 +73,7 @@ namespace PaquetWorld
                     i = context.Items.Find(iIdItem);
                     context.Items.Remove(i);
                     context.SaveChanges();
-                    MessageBox.Show("L'objet id (" + iIdItem + ") a été supprimé", "Suppression réussi");
+                    //MessageBox.Show("L'objet id (" + iIdItem + ") a été supprimé", "Suppression réussi");
 
                 }
                 catch (Exception e)
@@ -166,5 +160,59 @@ namespace PaquetWorld
             }
         }
 
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description:Méthode qui suprrimer tous les items d'un monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="IdMonde"></param>
+        public static void SupprimerTousItemMonde (int IdMonde)
+        {
+            using(Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.Items.Where(i => i.MondeId == IdMonde);
+                    foreach(Item i in req)
+                    {
+                        context.Items.Remove(i);
+                    }
+                    context.SaveChanges();
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Auteur: Sébastien Paquet
+        /// Description:Méthode qui liste toute les item d'un monde
+        /// Date:23-10-2017
+        /// </summary>
+        /// <param name="idMOnde"></param>
+        /// <returns></returns>
+        public static List<Item> ListeItems(int idMOnde)
+        {
+            List<Item> liste = new List<Item>();
+            using (Entities context = new Entities())
+            {
+                try
+                {
+                    var req = context.Items.Where(o => o.MondeId == idMOnde);
+                    foreach (Item i in req)
+                    {
+                        liste.Add(i);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            return liste;
+        }
     }
 }

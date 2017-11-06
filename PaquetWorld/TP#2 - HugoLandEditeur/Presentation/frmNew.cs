@@ -7,19 +7,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace HugoLandEditeur
 {
     public partial class frmNew : Form
     {
-        private int m_Width;
-        private int m_Height;
+        public int m_Width;
+        public int m_Height;
+        private string AllTile = "gamedata\\alltile.txt";
+        private List<string> listecsv = new List<string>();
+        private List<int> listeSize = new List<int>();
+        private List<int> listeTileBase = new List<int>();
+
         public frmNew()
         {
             InitializeComponent();
             this.DialogResult = DialogResult.Cancel;
             m_Width = 32;
             m_Height = 32;
+            StreamReader fichierEntrant = new StreamReader(AllTile);
+            string sLigne = "";
+            while (!fichierEntrant.EndOfStream)
+            {
+                sLigne = fichierEntrant.ReadLine();
+                string[] liste = sLigne.Split(',');
+                string data = liste[0];
+                cmbdata.Items.Add(data);
+                listecsv.Add(liste[1]);
+                listeSize.Add(Convert.ToInt32(liste[2]));
+                listeTileBase.Add(Convert.ToInt32(liste[3]));
+            }
+            fichierEntrant.Close();
         }
 
         // Width
@@ -84,6 +103,16 @@ namespace HugoLandEditeur
             {
                 m_Width = width;
                 m_Height = height;
+                int x = cmbdata.SelectedIndex;
+                if(x >= 0)
+                {
+                    StaticClass.TileData = @cmbdata.Text;
+                    StaticClass.TileCSV = @listecsv[x];
+                    StaticClass.SizeTileWidth = listeSize[x];
+                    StaticClass.SizeTileHeight = listeSize[x];
+                    StaticClass.TileBase = listeTileBase[x];
+                }
+                
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

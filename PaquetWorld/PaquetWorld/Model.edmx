@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Classe">
           <Key>
             <PropertyRef Name="Id" />
@@ -88,6 +88,10 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="LimiteX" Type="int" Nullable="false" />
           <Property Name="LimiteY" Type="int" Nullable="false" />
+          <Property Name="PathTile" Type="nvarchar(max)" />
+          <Property Name="PathCsv" Type="nvarchar(max)" />
+          <Property Name="DefaultTile" Type="int" />
+          <Property Name="SizeTile" Type="int" />
         </EntityType>
         <EntityType Name="Monstre">
           <Key>
@@ -337,8 +341,7 @@
             <End Role="Heros" EntitySet="Heros" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -445,6 +448,10 @@
           <NavigationProperty Name="Items" Relationship="Self.FK_Item_Monde" FromRole="Monde" ToRole="Item" />
           <NavigationProperty Name="Monstres" Relationship="Self.FK_Monstre_Monde" FromRole="Monde" ToRole="Monstre" />
           <NavigationProperty Name="ObjetMondes" Relationship="Self.FK_ObjetMonde_Monde" FromRole="Monde" ToRole="ObjetMonde" />
+          <Property Name="PathTile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PathCsv" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DefaultTile" Type="Int32" />
+          <Property Name="SizeTile" Type="Int32" />
         </EntityType>
         <EntityType Name="Monstre">
           <Key>
@@ -786,6 +793,10 @@
           <EntitySetMapping Name="Mondes">
             <EntityTypeMapping TypeName="Model.Monde">
               <MappingFragment StoreEntitySet="Monde">
+                <ScalarProperty Name="SizeTile" ColumnName="SizeTile" />
+                <ScalarProperty Name="DefaultTile" ColumnName="DefaultTile" />
+                <ScalarProperty Name="PathCsv" ColumnName="PathCsv" />
+                <ScalarProperty Name="PathTile" ColumnName="PathTile" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LimiteX" ColumnName="LimiteX" />

@@ -6,6 +6,7 @@ D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\bin\Debug\EntityFramework.
 D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\bin\Debug\EntityFramework.xml
 D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\bin\Debug\EntityFramework.SqlServer.xml
 D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\bin\Debug\fr\EntityFramework.resources.dll
+D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\bin\Debug\fr\EntityFramework.SqlServer.resources.dll
 D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\obj\Debug\PaquetWorld.csprojResolveAssemblyReference.cache
 D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\obj\Debug\MainWindow.g.cs
 D:\tp1baseDonnée1\tpdatabase\PaquetWorld\PaquetWorld\obj\Debug\App.g.cs

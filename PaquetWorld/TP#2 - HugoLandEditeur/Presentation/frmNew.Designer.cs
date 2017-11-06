@@ -42,6 +42,8 @@
             this.txtHeight = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbdata = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblWidth
@@ -82,7 +84,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(68, 92);
+            this.btnOK.Location = new System.Drawing.Point(58, 116);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(90, 27);
             this.btnOK.TabIndex = 4;
@@ -92,19 +94,38 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(164, 92);
+            this.btnCancel.Location = new System.Drawing.Point(154, 116);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(90, 27);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 77);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Choose Tile";
+            // 
+            // cmbdata
+            // 
+            this.cmbdata.FormattingEnabled = true;
+            this.cmbdata.Location = new System.Drawing.Point(124, 77);
+            this.cmbdata.Name = "cmbdata";
+            this.cmbdata.Size = new System.Drawing.Size(121, 24);
+            this.cmbdata.TabIndex = 7;
+            // 
             // frmNew
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(266, 120);
+            this.ClientSize = new System.Drawing.Size(266, 155);
+            this.Controls.Add(this.cmbdata);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtHeight);
@@ -122,5 +143,8 @@
 
         }
         #endregion
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbdata;
     }
 }

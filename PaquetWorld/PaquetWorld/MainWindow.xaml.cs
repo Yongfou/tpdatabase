@@ -29,14 +29,14 @@ namespace PaquetWorld
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            TestMonde();
-            TestObjetMonde();
-            TestMonstre();
-            TestCompteJoueur();
-            TestClasse();
-            TestHero();
-            TestItem();
-            TestEffetItem();
+            //TestMonde();
+            //TestObjetMonde();
+            //TestMonstre();
+            //TestCompteJoueur();
+            //TestClasse();
+            //TestHero();
+            //TestItem();
+            //TestEffetItem();
         }
 
         #region Méthodes
@@ -50,7 +50,7 @@ namespace PaquetWorld
         {
             using(Entities context = new Entities())
             {
-                MthMonde.CreerMonde("premier", 1000, 1000);
+                MthMonde.CreerMonde("premier", 1000, 1000,"","",0,null);
                 Monde md = context.Mondes.First(m=>m.Id > 1080);
                 MthMonde.SupprimerMonde(md.Id);
                 MthMonde.SupprimerMonde(50);
@@ -112,21 +112,23 @@ namespace PaquetWorld
         /// </summary>
         public void TestCompteJoueur()
         {
+            //MthCompteJoueur.LoginJoueur("yongfou");
+            //MessageBox.Show(MthCompteJoueur.CreerCompteJoueur("yongfou", "s-paquet@hotmail.fr", "Sébastien", "Paquet", 1, "282656347"));
+            //MessageBox.Show(MthCompteJoueur.CreerCompteJoueur("yongfou12", "s-paquet@hotmail.fr", "Sébastien", "Paquet", 2, "282656347"));
 
-            MessageBox.Show(MthCompteJoueur.CreerCompteJoueur("yongfou1", "s-paquet@hotmail.fr", "Sébastien", "Paquet", 2, "282656347"));
-            MessageBox.Show(MthCompteJoueur.CreerCompteJoueur("yongfou12", "s-paquet@hotmail.fr", "Sébastien", "Paquet", 2, "282656347"));
-
-            MessageBox.Show(MthCompteJoueur.Connexion("yongfou12", "282656347"));
-            MessageBox.Show(MthCompteJoueur.Connexion("yongfou", "282656347"));
-            using (Entities context = new Entities())
-            {
-                var req = context.CompteJoueurs.Where(m => m.NomJoueur == "yongfou12");
-                foreach (CompteJoueur x in req)
-                {
-                    context.CompteJoueurs.Remove(x);
-                }
-                context.SaveChanges();
-            }
+            //MessageBox.Show(MthCompteJoueur.Connexion("yongfou12", "282656347"));
+            //MessageBox.Show(MthCompteJoueur.Connexion("yongfou", "282656347"));
+            //using (Entities context = new Entities())
+            //{
+                //CompteJoueur cpp = context.CompteJoueurs.First(c => c.Id == 1008);
+                //context.CompteJoueurs.Remove(cpp);
+                //var req = context.CompteJoueurs.Where(m => m.NomJoueur == "yongfou12");
+                //foreach (CompteJoueur x in req)
+                //{
+                //    context.CompteJoueurs.Remove(x);
+                //}
+            //    context.SaveChanges();
+            //}
         }
 
         /// <summary>
@@ -199,10 +201,10 @@ namespace PaquetWorld
             using(Entities context = new Entities())
             {
 
-                MthItem.CreerItem("Dildo", " sa vibre", 15, 15, 1080, 0, 1);
-                MthItem.CreerItem("chat", "noir", 15, 15, 1080, 0, 1);
-                MthItem.CreerItem("Carte", "plate", 15, 15, 0, 1, 1);
-                MthItem.CreerItem("Carte", "plate", 15, 15, 1080, 0, 0);
+                MthItem.CreerItem("Dildo", " sa vibre", 15, 15, 1080, 0);
+                MthItem.CreerItem("chat", "noir", 15, 15, 1080, 0);
+                MthItem.CreerItem("Carte", "plate", 15, 15, 0, 1);
+                MthItem.CreerItem("Carte", "plate", 15, 15, 1080, 0);
                 Item i = context.Items.First(it => it.Id != 81);
                 MthItem.SupprimerItem(i.Id);
                 MthItem.SupprimerItem(10);

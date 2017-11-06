@@ -1,0 +1,2 @@
+gamedata\AllTiles.bmp,gamedata\AllTiles.csv,64,32
+gamedata\Tile.png,gamedata\Tile.csv,32,1100

@@ -103,6 +103,10 @@
     <NavigationProperty Name="Items" Relationship="Self.FK_Item_Monde" FromRole="Monde" ToRole="Item" />
     <NavigationProperty Name="Monstres" Relationship="Self.FK_Monstre_Monde" FromRole="Monde" ToRole="Monstre" />
     <NavigationProperty Name="ObjetMondes" Relationship="Self.FK_ObjetMonde_Monde" FromRole="Monde" ToRole="ObjetMonde" />
+    <Property Name="PathTile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PathCsv" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DefaultTile" Type="Int32" />
+    <Property Name="SizeTile" Type="Int32" />
   </EntityType>
   <EntityType Name="Monstre">
     <Key>

@@ -7,7 +7,6 @@ namespace HugoLandEditeur
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.StatusBar statusBar1;
 		private System.Windows.Forms.PictureBox picEditArea;
 		private System.Windows.Forms.MainMenu mbMain;
 		private System.Windows.Forms.MenuItem mnuFile;
@@ -85,10 +84,10 @@ namespace HugoLandEditeur
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.picEditArea = new System.Windows.Forms.PictureBox();
             this.mbMain = new System.Windows.Forms.MainMenu(this.components);
             this.mnuFile = new System.Windows.Forms.MenuItem();
             this.mnuFileNew = new System.Windows.Forms.MenuItem();
+            this.menuNewTile = new System.Windows.Forms.MenuItem();
             this.mnuFileOpen = new System.Windows.Forms.MenuItem();
             this.mnuFileClose = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
@@ -104,6 +103,7 @@ namespace HugoLandEditeur
             this.mnuZoomX16 = new System.Windows.Forms.MenuItem();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.mnuCreateNewUser = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.mnuHelp = new System.Windows.Forms.MenuItem();
             this.mnuHelpAbout = new System.Windows.Forms.MenuItem();
             this.tbMain = new System.Windows.Forms.ToolBar();
@@ -114,7 +114,6 @@ namespace HugoLandEditeur
             this.tbbSeperator1 = new System.Windows.Forms.ToolBarButton();
             this.tbbHelp = new System.Windows.Forms.ToolBarButton();
             this.il16 = new System.Windows.Forms.ImageList(this.components);
-            this.statusBar1 = new System.Windows.Forms.StatusBar();
             this.panelTools = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.picActiveTile = new System.Windows.Forms.PictureBox();
@@ -125,32 +124,21 @@ namespace HugoLandEditeur
             this.vscMap = new System.Windows.Forms.VScrollBar();
             this.hscMap = new System.Windows.Forms.HScrollBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.picMap = new System.Windows.Forms.PictureBox();
             this.tmrLoad = new System.Windows.Forms.Timer(this.components);
             this.dlgLoadMap = new System.Windows.Forms.OpenFileDialog();
             this.dlgSaveMap = new System.Windows.Forms.SaveFileDialog();
             this.cboZoom = new System.Windows.Forms.ComboBox();
             this.lblZoom = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.picEditArea)).BeginInit();
+            this.picMap = new System.Windows.Forms.PictureBox();
+            this.picEditArea = new System.Windows.Forms.PictureBox();
             this.panelTools.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picActiveTile)).BeginInit();
             this.panelTiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picTiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEditSel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMap)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEditArea)).BeginInit();
             this.SuspendLayout();
-            // 
-            // picEditArea
-            // 
-            this.picEditArea.BackColor = System.Drawing.Color.Gray;
-            this.picEditArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picEditArea.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picEditArea.Location = new System.Drawing.Point(0, 0);
-            this.picEditArea.Name = "picEditArea";
-            this.picEditArea.Size = new System.Drawing.Size(925, 528);
-            this.picEditArea.TabIndex = 0;
-            this.picEditArea.TabStop = false;
-            this.picEditArea.Resize += new System.EventHandler(this.picEditArea_Resize);
             // 
             // mbMain
             // 
@@ -164,6 +152,7 @@ namespace HugoLandEditeur
             this.mnuFile.Index = 0;
             this.mnuFile.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuFileNew,
+            this.menuNewTile,
             this.mnuFileOpen,
             this.mnuFileClose,
             this.menuItem4,
@@ -178,36 +167,42 @@ namespace HugoLandEditeur
             this.mnuFileNew.Text = "&New";
             this.mnuFileNew.Click += new System.EventHandler(this.mnuFileNew_Click);
             // 
+            // menuNewTile
+            // 
+            this.menuNewTile.Index = 1;
+            this.menuNewTile.Text = "New Tile";
+            this.menuNewTile.Click += new System.EventHandler(this.menuNewTile_Click);
+            // 
             // mnuFileOpen
             // 
-            this.mnuFileOpen.Index = 1;
+            this.mnuFileOpen.Index = 2;
             this.mnuFileOpen.Text = "&Open";
             this.mnuFileOpen.Click += new System.EventHandler(this.mnuFileOpen_Click);
             // 
             // mnuFileClose
             // 
-            this.mnuFileClose.Index = 2;
+            this.mnuFileClose.Index = 3;
             this.mnuFileClose.Text = "&Close";
             // 
             // menuItem4
             // 
-            this.menuItem4.Index = 3;
+            this.menuItem4.Index = 4;
             this.menuItem4.Text = "-";
             // 
             // mnuFileSave
             // 
-            this.mnuFileSave.Index = 4;
+            this.mnuFileSave.Index = 5;
             this.mnuFileSave.Text = "&Save";
             this.mnuFileSave.Click += new System.EventHandler(this.mnuFileSave_Click);
             // 
             // menuItem6
             // 
-            this.menuItem6.Index = 5;
+            this.menuItem6.Index = 6;
             this.menuItem6.Text = "-";
             // 
             // mnuFileExit
             // 
-            this.mnuFileExit.Index = 6;
+            this.mnuFileExit.Index = 7;
             this.mnuFileExit.Text = "E&xit";
             this.mnuFileExit.Click += new System.EventHandler(this.mnuFileExit_Click);
             // 
@@ -217,9 +212,9 @@ namespace HugoLandEditeur
             this.mnuSettings.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mnuZoom,
             this.menuItem1,
-            this.mnuCreateNewUser});
+            this.mnuCreateNewUser,
+            this.menuItem2});
             this.mnuSettings.Text = "&Settings";
-            this.mnuSettings.Visible = false;
             // 
             // mnuZoom
             // 
@@ -270,8 +265,14 @@ namespace HugoLandEditeur
             // mnuCreateNewUser
             // 
             this.mnuCreateNewUser.Index = 2;
-            this.mnuCreateNewUser.Text = "Create a new user";
+            this.mnuCreateNewUser.Text = "Creer un nouveau joueur";
             this.mnuCreateNewUser.Click += new System.EventHandler(this.mnuCreateNewUser_Click);
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Index = 3;
+            this.menuItem2.Text = "Changer joueur en Administrateur";
+            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
             // 
             // mnuHelp
             // 
@@ -345,14 +346,6 @@ namespace HugoLandEditeur
             this.il16.Images.SetKeyName(2, "Files-New-File-icon.png");
             this.il16.Images.SetKeyName(3, "Help-icon.png");
             // 
-            // statusBar1
-            // 
-            this.statusBar1.Location = new System.Drawing.Point(0, 503);
-            this.statusBar1.Name = "statusBar1";
-            this.statusBar1.Size = new System.Drawing.Size(925, 25);
-            this.statusBar1.TabIndex = 2;
-            this.statusBar1.Text = "sbMain";
-            // 
             // panelTools
             // 
             this.panelTools.Controls.Add(this.label1);
@@ -360,7 +353,7 @@ namespace HugoLandEditeur
             this.panelTools.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelTools.Location = new System.Drawing.Point(819, 28);
             this.panelTools.Name = "panelTools";
-            this.panelTools.Size = new System.Drawing.Size(106, 475);
+            this.panelTools.Size = new System.Drawing.Size(106, 500);
             this.panelTools.TabIndex = 3;
             // 
             // label1
@@ -387,7 +380,7 @@ namespace HugoLandEditeur
             this.panelTiles.Controls.Add(this.vscTiles);
             this.panelTiles.Controls.Add(this.picEditSel);
             this.panelTiles.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelTiles.Location = new System.Drawing.Point(0, 348);
+            this.panelTiles.Location = new System.Drawing.Point(0, 373);
             this.panelTiles.Name = "panelTiles";
             this.panelTiles.Size = new System.Drawing.Size(819, 155);
             this.panelTiles.TabIndex = 4;
@@ -404,13 +397,14 @@ namespace HugoLandEditeur
             this.picTiles.Paint += new System.Windows.Forms.PaintEventHandler(this.picTiles_Paint);
             this.picTiles.MouseLeave += new System.EventHandler(this.picTiles_MouseLeave);
             this.picTiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picTiles_MouseMove);
+            this.picTiles.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picTiles_MouseUp);
             // 
             // vscTiles
             // 
             this.vscTiles.Dock = System.Windows.Forms.DockStyle.Right;
             this.vscTiles.LargeChange = 15;
             this.vscTiles.Location = new System.Drawing.Point(799, 0);
-            this.vscTiles.Maximum = 395;
+            this.vscTiles.Maximum = 400;
             this.vscTiles.Name = "vscTiles";
             this.vscTiles.Size = new System.Drawing.Size(20, 155);
             this.vscTiles.SmallChange = 5;
@@ -425,6 +419,7 @@ namespace HugoLandEditeur
             this.picEditSel.Location = new System.Drawing.Point(0, 0);
             this.picEditSel.Name = "picEditSel";
             this.picEditSel.Size = new System.Drawing.Size(819, 155);
+            this.picEditSel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.picEditSel.TabIndex = 0;
             this.picEditSel.TabStop = false;
             // 
@@ -434,7 +429,7 @@ namespace HugoLandEditeur
             this.vscMap.LargeChange = 5;
             this.vscMap.Location = new System.Drawing.Point(799, 28);
             this.vscMap.Name = "vscMap";
-            this.vscMap.Size = new System.Drawing.Size(20, 320);
+            this.vscMap.Size = new System.Drawing.Size(20, 345);
             this.vscMap.TabIndex = 6;
             this.vscMap.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vscMap_Scroll);
             // 
@@ -442,7 +437,7 @@ namespace HugoLandEditeur
             // 
             this.hscMap.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.hscMap.LargeChange = 5;
-            this.hscMap.Location = new System.Drawing.Point(0, 329);
+            this.hscMap.Location = new System.Drawing.Point(0, 354);
             this.hscMap.Name = "hscMap";
             this.hscMap.Size = new System.Drawing.Size(799, 19);
             this.hscMap.TabIndex = 7;
@@ -453,10 +448,32 @@ namespace HugoLandEditeur
             this.timer1.Interval = 200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // tmrLoad
+            // 
+            this.tmrLoad.Tick += new System.EventHandler(this.tmrLoad_Tick);
+            // 
+            // cboZoom
+            // 
+            this.cboZoom.Location = new System.Drawing.Point(270, 2);
+            this.cboZoom.Name = "cboZoom";
+            this.cboZoom.Size = new System.Drawing.Size(145, 24);
+            this.cboZoom.TabIndex = 9;
+            this.cboZoom.TabStop = false;
+            this.cboZoom.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // lblZoom
+            // 
+            this.lblZoom.Location = new System.Drawing.Point(180, 2);
+            this.lblZoom.Name = "lblZoom";
+            this.lblZoom.Size = new System.Drawing.Size(48, 27);
+            this.lblZoom.TabIndex = 10;
+            this.lblZoom.Text = "Zoom:";
+            this.lblZoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // picMap
             // 
             this.picMap.BackColor = System.Drawing.Color.White;
-            this.picMap.Location = new System.Drawing.Point(19, 46);
+            this.picMap.Location = new System.Drawing.Point(0, 0);
             this.picMap.Name = "picMap";
             this.picMap.Size = new System.Drawing.Size(605, 351);
             this.picMap.TabIndex = 8;
@@ -467,27 +484,18 @@ namespace HugoLandEditeur
             this.picMap.MouseLeave += new System.EventHandler(this.picMap_MouseLeave);
             this.picMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picMap_MouseMove);
             // 
-            // tmrLoad
+            // picEditArea
             // 
-            this.tmrLoad.Tick += new System.EventHandler(this.tmrLoad_Tick);
-            // 
-            // cboZoom
-            // 
-            this.cboZoom.Location = new System.Drawing.Point(48, 378);
-            this.cboZoom.Name = "cboZoom";
-            this.cboZoom.Size = new System.Drawing.Size(145, 24);
-            this.cboZoom.TabIndex = 9;
-            this.cboZoom.TabStop = false;
-            this.cboZoom.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // lblZoom
-            // 
-            this.lblZoom.Location = new System.Drawing.Point(211, 388);
-            this.lblZoom.Name = "lblZoom";
-            this.lblZoom.Size = new System.Drawing.Size(48, 27);
-            this.lblZoom.TabIndex = 10;
-            this.lblZoom.Text = "Zoom:";
-            this.lblZoom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.picEditArea.BackColor = System.Drawing.Color.Gray;
+            this.picEditArea.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picEditArea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picEditArea.Location = new System.Drawing.Point(0, 0);
+            this.picEditArea.Name = "picEditArea";
+            this.picEditArea.Size = new System.Drawing.Size(925, 528);
+            this.picEditArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.picEditArea.TabIndex = 0;
+            this.picEditArea.TabStop = false;
+            this.picEditArea.Resize += new System.EventHandler(this.picEditArea_Resize);
             // 
             // frmMain
             // 
@@ -500,20 +508,23 @@ namespace HugoLandEditeur
             this.Controls.Add(this.vscMap);
             this.Controls.Add(this.panelTiles);
             this.Controls.Add(this.panelTools);
-            this.Controls.Add(this.statusBar1);
             this.Controls.Add(this.tbMain);
             this.Controls.Add(this.picEditArea);
             this.Menu = this.mbMain;
+            this.MinimumSize = new System.Drawing.Size(943, 575);
             this.Name = "frmMain";
             this.Text = "Éditeur de monde Hugo Land";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.picEditArea)).EndInit();
+            this.ResizeEnd += new System.EventHandler(this.frmMain_ResizeEnd);
+            this.Leave += new System.EventHandler(this.frmMain_Leave);
             this.panelTools.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picActiveTile)).EndInit();
             this.panelTiles.ResumeLayout(false);
+            this.panelTiles.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picTiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEditSel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picMap)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEditArea)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -522,5 +533,7 @@ namespace HugoLandEditeur
 
         private System.Windows.Forms.ToolBarButton toolBarButton1;
         private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuNewTile;
+        private System.Windows.Forms.MenuItem menuItem2;
     }
 }
